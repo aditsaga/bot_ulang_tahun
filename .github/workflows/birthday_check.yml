@@ -1,0 +1,30 @@
+name: Cek Ulang Tahun Harian
+
+on:
+  schedule:
+    # Menjalankan pada pukul 01:00 UTC setiap hari.
+    # Ini setara dengan jam 08:00 WIB.
+    - cron: '0 1 * * *'
+  # Baris di bawah ini agar bisa dijalankan manual juga untuk tes
+  workflow_dispatch:
+
+jobs:
+  send_birthday_wish:
+    runs-on: ubuntu-latest
+    steps:
+      # Langkah 1: Mengambil kode dari repositori
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Langkah 2: Menyiapkan lingkungan PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1' # Bisa disesuaikan versinya
+
+      # Langkah 3: Menjalankan skrip PHP
+      - name: Run PHP script
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
+        run: php cek_ultah.php
