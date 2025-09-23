@@ -47,13 +47,13 @@ if (count($yangUlangTahun) > 0) {
         $pesan .= "🎂  **" . $nama . "**\n";
     }
 
-    $pesan .= "\nSemoga panjang umur, sehat selalu, dan semua harapan terbaik untukmu! 🥳";
+    $pesan .= "\nSemoga panjang umur, sehat selalu, dan seperti biasa info pergerakan  🥳";
 
     // Kirim pesan ke grup
     kirimPesanTelegram($token, $groupID, $pesan);
 } else {
     // Jika tidak ada yang ulang tahun, bisa di-log atau didiamkan saja
-    echo "Tidak ada yang berulang tahun hari ini.";
+    echo "Selamat Pagi, Selamat Beraktivitas.";
 }
 
 
