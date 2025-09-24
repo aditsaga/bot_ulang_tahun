@@ -17,6 +17,8 @@ $daftarUlangTahun = [
     '09-11' => 'Ari Septian Wijanarko',
     '04-22' => 'Berliyandy Taurusti R',
     '12-08' => 'Amirul Huda',
+    '10-10' => 'Gurnito Pamungkas',
+    '05-01' => 'Elok Aris Wahyu Kundari',
     '11-21' => 'Anggia Dini Marsaroha Boru Panggabean Simorangkir'
 ];
 // -------------------------
