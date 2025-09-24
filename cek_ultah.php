@@ -53,7 +53,7 @@ if (count($yangUlangTahun) > 0) {
     kirimPesanTelegram($token, $groupID, $pesan);
 } else {
     // Jika tidak ada yang ulang tahun, bisa di-log atau didiamkan saja
-    echo "Selamat Pagi, Selamat Beraktivitas.";
+    echo "Tidak ada ulang tahun hari ini";
 }
 
 
