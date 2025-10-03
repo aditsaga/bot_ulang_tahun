@@ -7,7 +7,7 @@ $groupID = getenv('GROUP_ID');
 // --- DAFTAR ULANG TAHUN ---
 // Format: 'Bulan-Tanggal' => 'Nama'
 $daftarUlangTahun = [
-    '12-23' => ' Mas Ahmad Sulkhan Yusuf Mubarok',
+    '12-23' => 'Mas Ahmad Sulkhan Yusuf Mubarok',
     // '07-20' => 'Aditya Pratama',
     '01-06' => 'Mas Masroni Fiqi Muntholip',
     '02-12' => 'Mas Sukron Al Amin',
