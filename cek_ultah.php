@@ -7,19 +7,19 @@ $groupID = getenv('GROUP_ID');
 // --- DAFTAR ULANG TAHUN ---
 // Format: 'Bulan-Tanggal' => 'Nama'
 $daftarUlangTahun = [
-    '12-23' => 'Ahmad Sulkhan Yusuf Mubarok',
+    '12-23' => ' Mas Ahmad Sulkhan Yusuf Mubarok',
     // '07-20' => 'Aditya Pratama',
-    '01-06' => 'Masroni Fiqi Muntholip',
-    '02-12' => 'Sukron Al Amin',
-    '01-28' => 'Rendi Irawan',
-    '02-15' => 'Totok Agung Prasetyo',
-    '07-04' => 'Teddy Adi Prasongko',
-    '09-11' => 'Ari Septian Wijanarko',
-    '04-22' => 'Berliyandy Taurusti R',
-    '12-08' => 'Amirul Huda',
-    '10-10' => 'Gurnito Pamungkas',
-    '05-01' => 'Elok Aris Wahyu Kundari',
-    '11-21' => 'Anggia Dini Marsaroha Boru Panggabean Simorangkir'
+    '01-06' => 'Mas Masroni Fiqi Muntholip',
+    '02-12' => 'Mas Sukron Al Amin',
+    '01-28' => 'Mas Rendi Irawan',
+    '02-15' => 'Mas Totok Agung Prasetyo',
+    '07-04' => 'Mas Teddy Adi Prasongko',
+    '09-11' => 'Mas Ari Septian Wijanarko',
+    '04-22' => 'Mba Berliyandy Taurusti R',
+    '12-08' => 'Mas Amirul Huda',
+    '10-10' => 'Mas Gurnito Pamungkas',
+    '05-01' => 'Bu Elok Aris Wahyu Kundari',
+    '11-21' => 'Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir'
 ];
 // -------------------------
 
