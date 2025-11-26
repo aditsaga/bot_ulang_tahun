@@ -2,19 +2,37 @@ name: Keepalive Workflow
 
 on:
   schedule:
-    # Jalan tiap jam 4 pagi WIB (21:00 UTC)
-    - cron: '0 21 * * *'
+    - cron: '0 21 * * *' # Jam 4 Pagi WIB
   workflow_dispatch:
 
 permissions:
-  contents: write # Penting: Izin untuk commit ke repo
+  contents: write
 
 jobs:
-  keepalive-job:
+  auto-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: gautamkrishnar/keepalive-workflow@v1
-        with:
-          # Opsional: pesan commit kustom
-          commit_message: "Automated keepalive commit to prevent 60-day inactivity limit"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check date and commit if needed
+        run: |
+          # Setup Git Config
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          
+          # Cek kapan terakhir commit (dalam detik)
+          last_commit=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          seconds_since_last_commit=$((now - last_commit))
+          
+          # Batas waktu 50 hari (50 * 24 * 3600 = 4320000 detik)
+          limit=4320000
+          
+          if [ "$seconds_since_last_commit" -gt "$limit" ]; then
+            echo "Last commit was more than 50 days ago. Committing now."
+            git commit --allow-empty -m "Automated keepalive commit"
+            git push
+          else
+            echo "Last commit was recent ($seconds_since_last_commit seconds ago). No action needed."
+          fi
