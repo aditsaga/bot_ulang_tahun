@@ -1,0 +1,20 @@
+name: Keepalive Workflow
+
+on:
+  schedule:
+    # Jalan tiap jam 4 pagi WIB (21:00 UTC)
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write # Penting: Izin untuk commit ke repo
+
+jobs:
+  keepalive-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: gautamkrishnar/keepalive-workflow@v1
+        with:
+          # Opsional: pesan commit kustom
+          commit_message: "Automated keepalive commit to prevent 60-day inactivity limit"
