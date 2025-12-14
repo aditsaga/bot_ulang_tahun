@@ -49,7 +49,7 @@ if (count($yangUlangTahun) > 0) {
         $pesan .= "🎂  **" . $nama . "**\n";
     }
 
-    $pesan .= "\nSemoga panjang umur, sehat selalu, dan seperti biasa info pergerakan  🥳";
+    $pesan .= "\nSemoga panjang umur, sehat selalu, dan seperti biasa hehehehe 🥳";
 
     // Kirim pesan ke grup
     kirimPesanTelegram($token, $groupID, $pesan);
