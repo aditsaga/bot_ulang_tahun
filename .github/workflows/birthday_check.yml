@@ -2,9 +2,9 @@ name: Cek Ulang Tahun Harian
 
 on:
   schedule:
-    # Menjalankan pada pukul 01:00 UTC setiap hari.
-    # Ini setara dengan jam 07:00 WIB.
-    - cron: '0 0 * * *'
+    # Menjalankan pada pukul 23:00 UTC setiap hari.
+    # Ini setara dengan jam 06:00 WIB.
+    - cron: '0 23 * * *'
   # Baris di bawah ini agar bisa dijalankan manual juga untuk tes
   workflow_dispatch:
 
