@@ -36,6 +36,21 @@ $ucapanUmum = [
     "🎉 **HAPPY BIRTHDAY!** 🎉\n\n{NAMA}\n\nAlhamdulillah masih hidup! Semoga tahun ini lebih produktif dari tahun lalu, atau setidaknya jangan lebih ngenes 😄🙏",
     
     "🎂 **Selamat Ulang Tahun!** 🎂\n\n{NAMA}\n\nSatu tahun lagi berkurang dari umur, hitung-hitungan biar cepat ke surga 😄 Just kidding! Semoga panjang umur dan bahagia! 🎊",
+
+    "🎊 **Another Year Older, Still Awesome!** 🎊\n\n{NAMA}\n\nTerima kasih sudah setia menemani kami! Semoga kesehatan dan kebahagiaan terus melingkupi. 🎁✨",
+
+    "🌟 **Selamat Ulang Tahun!** 🌟\n\n{NAMA}\n\nSetiap tahun yang berlalu adalah karunia. Terima kasih telah menjadi bagian dari perjalanan kita bersama! Semoga dimudahkan segalanya. 🙏💫",
+
+    "🎉 **IT'S YOUR DAY!** 🎉\n\n{NAMA}\n\nSemoga hari ini penuh dengan kegembiraan dan tawa! Terus bersemangat dan jangan lupa istirahat cukup ya! 😊🎈",
+];
+
+// Ucapan khusus untuk Mas Teddy (ramah, tidak kelewatan bercanda)
+$ucapanTeddy = [
+    "🎉 **Selamat Ulang Tahun, Mas Teddy!** 🎉\n\nSemoga kesehatan dan kebahagiaan selalu bersama Anda. Terima kasih sudah menjadi bagian dari keluarga besar kami! 🙏",
+    
+    "🎂 **Happy Birthday, Mas Teddy!** 🎂\n\nSemoga tahun ini membawa berkah dan kemudahan dalam setiap langkah. Semoga panjang umur dan sehat selalu! 🎊",
+    
+    "🌟 **Selamat Ulang Tahun!** 🌟\n\nUntuk Mas Teddy Adi Prasongko yang luar biasa. Semoga hidup penuh dengan kegembiraan dan kesuksesan! 💫🎁",
 ];
 
 $ucapanBuAnggia = "Kami mengucapkan selamat ulang tahun kepada:\n\n**Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir**\n\nSemoga kesehatan dan kebahagiaan selalu menyertai, serta semoga segala yang direncanakan dapat berjalan dengan lancar. 🎂";
@@ -51,12 +66,15 @@ $hariIni = date('m-d'); // Format: 09-21 (bulan-tanggal)
 
 // 2. Siapkan wadah untuk nama-nama yang berulang tahun
 $yangUlangTahun = [];
+$yangUlangTahunTeddy = false;
 $yangUlangTahunBuAnggia = false;
 
 foreach ($daftarUlangTahun as $tanggal => $nama) {
     if ($tanggal == $hariIni) {
         if ($nama === 'Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir') {
             $yangUlangTahunBuAnggia = true;
+        } elseif ($nama === 'Mas Teddy Adi Prasongko') {
+            $yangUlangTahunTeddy = true;
         } else {
             $yangUlangTahun[] = $nama;
         }
@@ -64,11 +82,17 @@ foreach ($daftarUlangTahun as $tanggal => $nama) {
 }
 
 // 3. Jika ada yang berulang tahun, kirim pesan
-if (count($yangUlangTahun) > 0 || $yangUlangTahunBuAnggia) {
+if (count($yangUlangTahun) > 0 || $yangUlangTahunTeddy || $yangUlangTahunBuAnggia) {
 
     // Jika Bu Anggia berulang tahun, kirim ucapan khusus
     if ($yangUlangTahunBuAnggia) {
         kirimPesanTelegram($token, $groupID, "🎉 **Selamat Ulang Tahun!** 🎉\n\n" . $ucapanBuAnggia);
+    }
+
+    // Jika Mas Teddy berulang tahun, kirim ucapan khusus (ramah tanpa berlebihan)
+    if ($yangUlangTahunTeddy) {
+        $ucapanTeddyTerpilih = $ucapanTeddy[array_rand($ucapanTeddy)];
+        kirimPesanTelegram($token, $groupID, $ucapanTeddyTerpilih);
     }
 
     // Jika ada orang lain yang berulang tahun, kirim ucapan variatif
