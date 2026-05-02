@@ -23,6 +23,25 @@ $daftarUlangTahun = [
 ];
 // -------------------------
 
+// --- KOLEKSI UCAPAN VARIATIF ---
+$ucapanUmum = [
+    "🎉 **Selamat Ulang Tahun!** 🎉\n\nHari ini adalah hari yang spesial untuk:\n\n{NAMA}\n\nSemoga panjang umur, sehat selalu, dan seperti biasa hehehehe 🥳",
+    
+    "🎂 **Ups, tua lagi!** 🎂\n\nSelamat ulang tahun untuk:\n\n{NAMA}\n\nMakin tua makin bijak (semoga)... Sehat-sehat aja ya! 😄",
+    
+    "🎈 **HAPPY BIRTHDAY** 🎈\n\n{NAMA} naik level lagi! 🎮\n\nSemoga umur bertambah, derajat terus naik, dan kalori turun (yang ini mungkin sulit ya) 😅🥳",
+    
+    "🥳 **Selamat! Anda berhasil survive setahun lagi!** 🥳\n\nUntuk:\n\n{NAMA}\n\nTanpa kena penyakit, tidak kena musibah, hanya ditampar takdir berkali-kali 😂 Semoga tahun depan lebih baik! 🎉",
+    
+    "🎉 **HAPPY BIRTHDAY!** 🎉\n\n{NAMA}\n\nAlhamdulillah masih hidup! Semoga tahun ini lebih produktif dari tahun lalu, atau setidaknya jangan lebih ngenes 😄🙏",
+    
+    "🎂 **Selamat Ulang Tahun!** 🎂\n\n{NAMA}\n\nSatu tahun lagi berkurang dari umur, hitung-hitungan biar cepat ke surga 😄 Just kidding! Semoga panjang umur dan bahagia! 🎊",
+];
+
+$ucapanBuAnggia = "Kami mengucapkan selamat ulang tahun kepada:\n\n**Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir**\n\nSemoga kesehatan dan kebahagiaan selalu menyertai, serta semoga segala yang direncanakan dapat berjalan dengan lancar. 🎂";
+
+// -------------------------
+
 
 // --- LOGIKA SCRIPT ---
 
@@ -32,27 +51,42 @@ $hariIni = date('m-d'); // Format: 09-21 (bulan-tanggal)
 
 // 2. Siapkan wadah untuk nama-nama yang berulang tahun
 $yangUlangTahun = [];
+$yangUlangTahunBuAnggia = false;
+
 foreach ($daftarUlangTahun as $tanggal => $nama) {
     if ($tanggal == $hariIni) {
-        $yangUlangTahun[] = $nama;
+        if ($nama === 'Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir') {
+            $yangUlangTahunBuAnggia = true;
+        } else {
+            $yangUlangTahun[] = $nama;
+        }
     }
 }
 
 // 3. Jika ada yang berulang tahun, kirim pesan
-if (count($yangUlangTahun) > 0) {
+if (count($yangUlangTahun) > 0 || $yangUlangTahunBuAnggia) {
 
-    // Buat pesan ucapan
-    $pesan = "🎉 **Selamat Ulang Tahun!** 🎉\n\n";
-    $pesan .= "Hari ini adalah hari yang spesial untuk:\n\n";
-
-    foreach ($yangUlangTahun as $nama) {
-        $pesan .= "🎂  **" . $nama . "**\n";
+    // Jika Bu Anggia berulang tahun, kirim ucapan khusus
+    if ($yangUlangTahunBuAnggia) {
+        kirimPesanTelegram($token, $groupID, "🎉 **Selamat Ulang Tahun!** 🎉\n\n" . $ucapanBuAnggia);
     }
 
-    $pesan .= "\nSemoga panjang umur, sehat selalu, dan seperti biasa hehehehe 🥳";
+    // Jika ada orang lain yang berulang tahun, kirim ucapan variatif
+    if (count($yangUlangTahun) > 0) {
+        // Pilih ucapan secara acak
+        $ucapanTerpilih = $ucapanUmum[array_rand($ucapanUmum)];
+        
+        // Ganti placeholder {NAMA} dengan nama-nama yang berulang tahun
+        $namaList = "";
+        foreach ($yangUlangTahun as $nama) {
+            $namaList .= "🎂  **" . $nama . "**\n";
+        }
+        
+        $pesan = str_replace("{NAMA}", trim($namaList), $ucapanTerpilih);
+        
+        kirimPesanTelegram($token, $groupID, $pesan);
+    }
 
-    // Kirim pesan ke grup
-    kirimPesanTelegram($token, $groupID, $pesan);
 } else {
     // Jika tidak ada yang ulang tahun, bisa di-log atau didiamkan saja
     echo "Tidak ada ulang tahun hari ini";
