@@ -46,11 +46,11 @@ $ucapanUmum = [
 
 // Ucapan khusus untuk Mas Teddy (ramah, tidak kelewatan bercanda)
 $ucapanTeddy = [
-    "🎉 **Selamat Ulang Tahun, Mas Teddy!** 🎉\n\nSemoga kesehatan dan kebahagiaan selalu bersama Anda. Terima kasih sudah menjadi bagian dari keluarga besar kami! 🙏",
+    "🎉 **Selamat Ulang Tahun, {NAMA}!** 🎉\n\nSemoga kesehatan dan kebahagiaan selalu bersama Anda. Terima kasih sudah menjadi bagian dari keluarga besar kami! 🙏",
     
-    "🎂 **Happy Birthday, Mas Teddy!** 🎂\n\nSemoga tahun ini membawa berkah dan kemudahan dalam setiap langkah. Semoga panjang umur dan sehat selalu! 🎊",
+    "🎂 **Happy Birthday, {NAMA}!** 🎂\n\nSemoga tahun ini membawa berkah dan kemudahan dalam setiap langkah. Semoga panjang umur dan sehat selalu! 🎊",
     
-    "🌟 **Selamat Ulang Tahun!** 🌟\n\nUntuk Mas Teddy Adi Prasongko yang luar biasa. Semoga hidup penuh dengan kegembiraan dan kesuksesan! 💫🎁",
+    "🌟 **Selamat Ulang Tahun!** 🌟\n\nUntuk {NAMA} yang luar biasa. Semoga hidup penuh dengan kegembiraan dan kesuksesan! 💫🎁",
 ];
 
 $ucapanBuAnggia = "Kami mengucapkan selamat ulang tahun kepada:\n\n**Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir**\n\nSemoga kesehatan dan kebahagiaan selalu menyertai, serta semoga segala yang direncanakan dapat berjalan dengan lancar. 🎂";
