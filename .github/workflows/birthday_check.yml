@@ -22,9 +22,10 @@ jobs:
         with:
           php-version: '8.1' # Bisa disesuaikan versinya
 
-      # Langkah 3: Menjalankan skrip PHP
-      - name: Run PHP script
+      # Langkah 3: Menjalankan skrip PHP (MODE: NORMAL)
+      - name: Run PHP script - Check Birthday (NORMAL MODE)
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           GROUP_ID: ${{ secrets.GROUP_ID }}
+          MODE: NORMAL
         run: php cek_ultah.php
