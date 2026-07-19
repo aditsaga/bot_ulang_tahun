@@ -150,8 +150,22 @@ function kirimPesanTelegram($token, $chatID, $pesan) {
 
 // --- FUNGSI UNTUK MENGIRIM VOICE NOTE ---
 function kirimVoiceNoteTelegram($token, $chatID) {
-    // Gunakan sendAudio atau sendVoice untuk mengirim file audio
-    // Untuk voice note, gunakan sendVoice
+    // Dapatkan path file voice.ogg secara absolut
+    $voiceFilePath = __DIR__ . '/voice.ogg';
+    
+    // Pengecekan apakah file ada
+    if (!file_exists($voiceFilePath)) {
+        echo "ERROR: File voice.ogg tidak ditemukan di " . $voiceFilePath . "\n";
+        return;
+    }
+    
+    // Pengecekan apakah file dapat dibaca
+    if (!is_readable($voiceFilePath)) {
+        echo "ERROR: File voice.ogg tidak dapat dibaca (permission issue)\n";
+        return;
+    }
+    
+    // Gunakan sendVoice endpoint untuk mengirim voice note
     $url = "https://api.telegram.org/bot" . $token . "/sendVoice";
     
     $ch = curl_init();
@@ -159,20 +173,21 @@ function kirimVoiceNoteTelegram($token, $chatID) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     
-    // Siapkan data file
+    // Siapkan data file dengan CURLFile
     $postData = array(
         'chat_id' => $chatID,
-        'voice' => new CURLFile('voice.ogg', 'audio/ogg')
+        'voice' => new CURLFile($voiceFilePath, 'audio/ogg', 'voice.ogg')
     );
     
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
     
     $result = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
     // Untuk debugging, tampilkan hasil
-    echo "Voice note terkirim! \n";
-    echo $result;
+    echo "Voice note terkirim! (HTTP Code: " . $httpCode . ")\n";
+    echo $result . "\n";
 }
 
 ?>
