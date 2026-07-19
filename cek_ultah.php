@@ -53,7 +53,7 @@ $ucapanTeddy = [
     "🌟 **Selamat Ulang Tahun!** 🌟\n\nUntuk {NAMA} yang luar biasa. Semoga hidup penuh dengan kegembiraan dan kesuksesan! 💫🎁",
 ];
 
-$ucapanBuAnggia = "Kami mengucapkan selamat ulang tahun kepada:\n\n**Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir**\n\nSemoga kesehatan dan kebahagiaan selalu menyertai, serta semoga segala lancar dan dimudahkan. Terima kasih atas segala bimbingan dan dukungannya! 🙏";
+$ucapanBuAnggia = "Kami mengucapkan selamat ulang tahun kepada:\n\n**Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir**\n\nSemoga kesehatan dan kebahagiaan selalu menyertai, serta semoga segala yang direncanakan dapat berjalan dengan lancar. 🎂";
 
 // -------------------------
 
