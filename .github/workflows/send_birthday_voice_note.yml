@@ -1,4 +1,4 @@
-name: Kirim Voice Note Ulang Tahun
+name: Kirim Voice Note Ulang Tahun (Jam 10 Pagi)
 
 on:
   schedule:
@@ -22,9 +22,10 @@ jobs:
         with:
           php-version: '8.1' # Bisa disesuaikan versinya
 
-      # Langkah 3: Menjalankan skrip PHP untuk mengirim voice note
-      - name: Run PHP script to send voice note
+      # Langkah 3: Menjalankan skrip PHP (MODE: VOICE_ONLY)
+      - name: Run PHP script - Send Voice Note (VOICE_ONLY MODE)
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           GROUP_ID: ${{ secrets.GROUP_ID }}
-        run: php kirim_voice_note.php
+          MODE: VOICE_ONLY
+        run: php cek_ultah.php
