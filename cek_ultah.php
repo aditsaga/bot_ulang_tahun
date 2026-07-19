@@ -3,6 +3,7 @@
 // --- PENGATURAN ---
 $token = getenv('BOT_TOKEN');
 $groupID = getenv('GROUP_ID');
+$mode = getenv('MODE') ?: 'NORMAL'; // DEFAULT: NORMAL, BISA JUGA: VOICE_ONLY
 
 // --- DAFTAR ULANG TAHUN ---
 // Format: 'Bulan-Tanggal' => 'Nama'
@@ -85,52 +86,87 @@ foreach ($daftarUlangTahun as $tanggal => $nama) {
     }
 }
 
-// 3. Jika ada yang berulang tahun, kirim pesan
-if (count($yangUlangTahun) > 0 || $yangUlangTahunTeddy || $yangUlangTahunBuAnggia || $adityaPratama) {
-
-    // KHUSUS UNTUK ADITYA PRATAMA (20 JULI)
-    // Hanya kirim voice note pada jam 10 pagi, tanpa teks
-    if ($adityaPratama) {
-        // Cek apakah jam sudah 10 pagi (jam 10:00 - 10:59)
-        if ($jamSekarang == 10) {
-            // Kirim voice note saja, tanpa teks
-            kirimVoiceNoteTelegram($token, $groupID);
-        }
-        // Jika bukan jam 10 pagi, tidak kirim apa-apa
-    } else {
-        // Jika Bu Anggia berulang tahun, kirim ucapan khusus
-        if ($yangUlangTahunBuAnggia) {
-            kirimPesanTelegram($token, $groupID, "🎉 **Selamat Ulang Tahun!** 🎉\n\n" . $ucapanBuAnggia);
-        }
-
-        // Jika Mas Teddy berulang tahun, kirim ucapan khusus (ramah tanpa berlebihan)
-        if ($yangUlangTahunTeddy) {
-            $ucapanTeddyTerpilih = $ucapanTeddy[array_rand($ucapanTeddy)];
-            kirimPesanTelegram($token, $groupID, $ucapanTeddyTerpilih);
-        }
-
-        // Jika ada orang lain yang berulang tahun, kirim ucapan variatif
-        if (count($yangUlangTahun) > 0) {
-            // Pilih ucapan secara acak
-            $ucapanTerpilih = $ucapanUmum[array_rand($ucapanUmum)];
-            
-            // Ganti placeholder {NAMA} dengan nama-nama yang berulang tahun
-            $namaList = "";
-            foreach ($yangUlangTahun as $nama) {
-                $namaList .= "🎂  **" . $nama . "**\n";
-            }
-            
-            $pesan = str_replace("{NAMA}", trim($namaList), $ucapanTerpilih);
-            
-            kirimPesanTelegram($token, $groupID, $pesan);
-        }
-    }
-
+// 3. Logika berdasarkan MODE
+if ($mode === 'VOICE_ONLY') {
+    // MODE KHUSUS: Hanya mengirim voice note untuk Aditya Pratama di jam 10
+    handleVoiceOnlyMode($adityaPratama, $jamSekarang, $token, $groupID);
 } else {
-    // Jika tidak ada yang ulang tahun, bisa di-log atau didiamkan saja
-    echo "Tidak ada ulang tahun hari ini";
+    // MODE NORMAL: Mengirim semua ucapan ulang tahun (kecuali Aditya yang voice-only)
+    handleNormalMode($yangUlangTahun, $yangUlangTahunTeddy, $yangUlangTahunBuAnggia, $adityaPratama, 
+                     $jamSekarang, $token, $groupID, $ucapanUmum, $ucapanTeddy, $ucapanBuAnggia);
 }
 
+// -------------------------
+
+/**
+ * MODE VOICE_ONLY: Mengirim voice note untuk Aditya Pratama saja
+ * Dijalankan pada jam 10 pagi (03:00 UTC)
+ */
+function handleVoiceOnlyMode($adityaPratama, $jamSekarang, $token, $groupID) {
+    if ($adityaPratama && $jamSekarang == 10) {
+        echo "[VOICE_ONLY MODE] Tanggal Aditya Pratama terdeteksi. Jam sekarang: " . $jamSekarang . "\n";
+        kirimVoiceNoteTelegram($token, $groupID);
+    } else {
+        if (!$adityaPratama) {
+            echo "[VOICE_ONLY MODE] Bukan tanggal Aditya Pratama (07-20). Tidak ada yang dikirim.\n";
+        } else {
+            echo "[VOICE_ONLY MODE] Jam sekarang adalah " . $jamSekarang . ", menunggu jam 10 untuk mengirim voice note.\n";
+        }
+    }
+}
+
+/**
+ * MODE NORMAL: Mengirim semua ucapan ulang tahun (06:00 WIB)
+ * Untuk semua orang kecuali Aditya (yang menunggu jam 10)
+ */
+function handleNormalMode($yangUlangTahun, $yangUlangTahunTeddy, $yangUlangTahunBuAnggia, $adityaPratama,
+                          $jamSekarang, $token, $groupID, $ucapanUmum, $ucapanTeddy, $ucapanBuAnggia) {
+    
+    $adaYangDikirim = false;
+
+    // Jika Bu Anggia berulang tahun, kirim ucapan khusus
+    if ($yangUlangTahunBuAnggia) {
+        echo "[NORMAL MODE] Bu Anggia berulang tahun. Mengirim ucapan khusus...\n";
+        kirimPesanTelegram($token, $groupID, "🎉 **Selamat Ulang Tahun!** 🎉\n\n" . $ucapanBuAnggia);
+        $adaYangDikirim = true;
+    }
+
+    // Jika Mas Teddy berulang tahun, kirim ucapan khusus (ramah tanpa berlebihan)
+    if ($yangUlangTahunTeddy) {
+        echo "[NORMAL MODE] Mas Teddy berulang tahun. Mengirim ucapan khusus...\n";
+        $ucapanTeddyTerpilih = $ucapanTeddy[array_rand($ucapanTeddy)];
+        kirimPesanTelegram($token, $groupID, $ucapanTeddyTerpilih);
+        $adaYangDikirim = true;
+    }
+
+    // Jika ada orang lain yang berulang tahun, kirim ucapan variatif
+    if (count($yangUlangTahun) > 0) {
+        echo "[NORMAL MODE] " . count($yangUlangTahun) . " orang berulang tahun. Mengirim ucapan variatif...\n";
+        // Pilih ucapan secara acak
+        $ucapanTerpilih = $ucapanUmum[array_rand($ucapanUmum)];
+        
+        // Ganti placeholder {NAMA} dengan nama-nama yang berulang tahun
+        $namaList = "";
+        foreach ($yangUlangTahun as $nama) {
+            $namaList .= "🎂  **" . $nama . "**\n";
+        }
+        
+        $pesan = str_replace("{NAMA}", trim($namaList), $ucapanTerpilih);
+        
+        kirimPesanTelegram($token, $groupID, $pesan);
+        $adaYangDikirim = true;
+    }
+
+    // Khusus untuk Aditya Pratama: catat bahwa dia akan mendapat voice note di jam 10
+    if ($adityaPratama) {
+        echo "[NORMAL MODE] Aditya Pratama berulang tahun hari ini! Voice note akan dikirim pada jam 10 pagi.\n";
+    }
+
+    // Jika tidak ada yang dikirim
+    if (!$adaYangDikirim && !$adityaPratama) {
+        echo "[NORMAL MODE] Tidak ada ulang tahun hari ini.\n";
+    }
+}
 
 // --- FUNGSI UNTUK MENGIRIM PESAN ---
 function kirimPesanTelegram($token, $chatID, $pesan) {
@@ -144,8 +180,8 @@ function kirimPesanTelegram($token, $chatID, $pesan) {
     curl_close($ch);
 
     // Untuk debugging, tampilkan hasil
-    echo "Pesan terkirim! \n";
-    echo $result;
+    echo "✅ Pesan terkirim! \n";
+    echo $result . "\n";
 }
 
 // --- FUNGSI UNTUK MENGIRIM VOICE NOTE ---
@@ -155,13 +191,13 @@ function kirimVoiceNoteTelegram($token, $chatID) {
     
     // Pengecekan apakah file ada
     if (!file_exists($voiceFilePath)) {
-        echo "ERROR: File voice.ogg tidak ditemukan di " . $voiceFilePath . "\n";
+        echo "❌ ERROR: File voice.ogg tidak ditemukan di " . $voiceFilePath . "\n";
         return;
     }
     
     // Pengecekan apakah file dapat dibaca
     if (!is_readable($voiceFilePath)) {
-        echo "ERROR: File voice.ogg tidak dapat dibaca (permission issue)\n";
+        echo "❌ ERROR: File voice.ogg tidak dapat dibaca (permission issue)\n";
         return;
     }
     
@@ -186,7 +222,7 @@ function kirimVoiceNoteTelegram($token, $chatID) {
     curl_close($ch);
 
     // Untuk debugging, tampilkan hasil
-    echo "Voice note terkirim! (HTTP Code: " . $httpCode . ")\n";
+    echo "✅ Voice note terkirim! (HTTP Code: " . $httpCode . ")\n";
     echo $result . "\n";
 }
 
