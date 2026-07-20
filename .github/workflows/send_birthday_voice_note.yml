@@ -2,9 +2,8 @@ name: Kirim Voice Note Ulang Tahun (Jam 10 Pagi)
 
 on:
   schedule:
-    # Menjalankan pada pukul 03:00 UTC setiap hari.
-    # Ini setara dengan jam 10:00 WIB.
-    # - cron: '0 3 * * *'
+# Dijalankan jam 03:05 UTC (10:05 WIB) - biasanya jauh lebih sepi antrean
+- cron: '5 3 * * *'
   # Baris di bawah ini agar bisa dijalankan manual juga untuk tes
   workflow_dispatch:
 
