@@ -103,7 +103,7 @@ if ($mode === 'VOICE_ONLY') {
  * Dijalankan pada jam 10 pagi (03:00 UTC)
  */
 function handleVoiceOnlyMode($adityaPratama, $jamSekarang, $token, $groupID) {
-    if ($adityaPratama && $jamSekarang == 10) {
+    if ($adityaPratama) {
         echo "[VOICE_ONLY MODE] Tanggal Aditya Pratama terdeteksi. Jam sekarang: " . $jamSekarang . "\n";
         kirimVoiceNoteTelegram($token, $groupID);
     } else {
