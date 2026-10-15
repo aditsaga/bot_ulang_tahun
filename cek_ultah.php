@@ -20,7 +20,8 @@ $daftarUlangTahun = [
     '12-08' => 'Mas Amirul Huda',
     '10-10' => 'Mas Gurnito Pamungkas',
     '05-01' => 'Bu Elok Aris Wahyu Kundari',
-    '11-21' => 'Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir'
+    '11-21' => 'Bu Anggia Dini Marsaroha Boru Panggabean Simorangkir',
+    '11-13' => 'Mba Bernadheta Novia'
 ];
 // -------------------------
 
@@ -123,6 +124,14 @@ function handleNormalMode($yangUlangTahun, $yangUlangTahunTeddy, $yangUlangTahun
                           $jamSekarang, $token, $groupID, $ucapanUmum, $ucapanTeddy, $ucapanBuAnggia) {
     
     $adaYangDikirim = false;
+
+    foreach ($yangUlangTahun as $index => $nama) {
+        if ($nama === 'Mba Bernadheta Novia') {
+            kirimPesanTelegram($token, $groupID, "**Selamat Ulang Tahun, Mba Bernadheta Novia!**\n\nSemoga panjang umur, sehat selalu, dan penuh kebahagiaan. Selamat bergabung dengan tim kami! Semoga betah bekerja di sini, nyaman bersama rekan-rekan, dan sukses dalam setiap langkah.");
+            unset($yangUlangTahun[$index]);
+            $adaYangDikirim = true;
+        }
+    }
 
     // Jika Bu Anggia berulang tahun, kirim ucapan khusus
     if ($yangUlangTahunBuAnggia) {
